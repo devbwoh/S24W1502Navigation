@@ -22,6 +22,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -72,7 +74,13 @@ fun MainScreen() {
                 TopBar(drawerState)
             },
             bottomBar = {
-                BottomBar {
+//                BottomBar {
+//                    navController.navigate(it) {
+//                        launchSingleTop = true
+//                        popUpTo(it) { inclusive = true }
+//                    }
+//                }
+                BottomNavigationBar {
                     navController.navigate(it) {
                         launchSingleTop = true
                         popUpTo(it) { inclusive = true }
@@ -93,6 +101,42 @@ fun MainScreen() {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun BottomNavigationBar(onNavigate: (String) -> Unit) {
+    NavigationBar {
+        NavigationBarItem(
+            label = {
+                Text("화면 1")
+            },
+            icon = {
+                Icon(
+                    Icons.Filled.Face,
+                    contentDescription = "screen1 icon"
+                )
+            },
+            selected = false,
+            onClick = {
+                onNavigate("screen1")
+            }
+        )
+        NavigationBarItem(
+            label = {
+                Text("화면 2")
+            },
+            icon = {
+                Icon(
+                    Icons.Filled.Star,
+                    contentDescription = "screen2 icon"
+                )
+            },
+            selected = false,
+            onClick = {
+                onNavigate("screen2")
+            }
+        )
     }
 }
 

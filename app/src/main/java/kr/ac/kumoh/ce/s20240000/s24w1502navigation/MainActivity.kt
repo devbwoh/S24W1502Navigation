@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerState
@@ -69,7 +70,15 @@ fun MainScreen() {
             modifier = Modifier.fillMaxSize(),
             topBar = {
                 TopBar(drawerState)
-            }
+            },
+            bottomBar = {
+                BottomBar {
+                    navController.navigate(it) {
+                        launchSingleTop = true
+                        popUpTo(it) { inclusive = true }
+                    }
+                }
+            },
         ) { innerPadding ->
             NavHost(
                 navController = navController,
@@ -85,6 +94,34 @@ fun MainScreen() {
             }
         }
     }
+}
+
+@Composable
+fun BottomBar(onNavigate: (String) -> Unit) {
+    BottomAppBar(
+        actions = {
+            IconButton(
+                onClick = {
+                    onNavigate("screen1")
+                }
+            ) {
+                Icon(
+                    Icons.Filled.Face,
+                    contentDescription = "screen1 icon"
+                )
+            }
+            IconButton(
+                onClick = {
+                    onNavigate("screen2")
+                }
+            ) {
+                Icon(
+                    Icons.Filled.Star,
+                    contentDescription = "screen2 icon"
+                )
+            }
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -116,7 +153,6 @@ fun TopBar(drawerState: DrawerState) {
 
     )
 }
-
 
 @Composable
 fun DrawerSheet(
